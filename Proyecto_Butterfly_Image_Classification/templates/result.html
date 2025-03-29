@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la Predicción</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container result-container">
+        <header>
+            <h1>✨ Resultado de la Identificación ✨</h1>
+        </header>
+
+        <main class="result-content">
+            <div class="image-preview">
+                <h2>Imagen Analizada:</h2>
+                <img src="{{ url_for('uploaded_file', filename=image_filename) }}" alt="Imagen de mariposa subida">
+            </div>
+
+            <div class="prediction-details">
+                <h2>Predicción de la IA:</h2>
+                <p class="species-name">Especie: <span>{{ species }}</span></p>
+                <p class="confidence-level">Confianza: <span>{{ confidence }}</span></p>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" data-confidence="{{ confidence }}" style="width: 0%;"> <!-- Empieza en 0 o un valor base -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <a href="{{ url_for('index') }}" class="back-button">Analizar otra imagen</a>
+
+        <footer>
+            <p>Desarrollado con IA y Flask - Ejecución Local</p>
+        </footer>
+    </div>
+    <!-- Añadir clase al body para animación de entrada (opcional) -->
+    <script>
+        document.body.classList.add('fade-in');
+        document.addEventListener('DOMContentLoaded', (event) => {
+                const progressBar = document.querySelector('.progress-bar');
+                if (progressBar) {
+                    // Obtiene el valor de confianza (ej. "95.23%") del atributo data-confidence
+                    const confidenceValue = progressBar.getAttribute('data-confidence');
+
+                    // Establece el ancho de la barra de progreso usando ese valor
+                    // El navegador entenderá "95.23%" como un valor de ancho CSS válido
+                    progressBar.style.width = confidenceValue;
+
+                    // Opcional: Puedes añadir una transición CSS en style.css
+                    // para que la barra se anime suavemente:
+                    // .progress-bar {
+                    //   transition: width 0.5s ease-out;
+                    // }
+                }
+            });
+    </script>
+</body>
+
+</html>
